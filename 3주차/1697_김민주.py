@@ -6,6 +6,7 @@ visited = [0]*100001
 
 #bfs 사용하여 풀이
 # X-1 / X+1 / 2X에 대해 탐색해준다.
+#dp랑 고민하다가 bfs로 풀었는데 dp로도 풀 수 있는듯??하다
 def bfs():
     q = deque()
     q.append(N)
