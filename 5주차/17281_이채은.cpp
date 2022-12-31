@@ -27,7 +27,6 @@ void play() {
     score = 0;
     
     for(int i=0; i<N; i++) {
-        // 2. 이닝 시작 - 아웃, 주자 초기화
         out_cnt = 0;
         memset(is_ground_on, false, sizeof(is_ground_on));
 
