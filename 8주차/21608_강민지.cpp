@@ -101,7 +101,7 @@ int main() {
 	// 입력
 	cin >> n;
 	board.assign(n+1, vector<int>(n+1, 0));
-	like.assign(n*n+1, vector<int>(4, 0));
+	like.assign(n*n+1, vector<int>());
 	for (int i = 0; i < n * n; i++) {
 		cin >> st >> l1 >> l2 >> l3 >> l4;
 		like[st].push_back(l1);
@@ -113,7 +113,6 @@ int main() {
 
 	// 연산
 	// 1) 자리 계산
-	cout << "여기!!!!!1\n";
 	for (int order_st : order) {
 		vector<seat> v;
 		for (int i = 1; i <= n; i++) {
@@ -126,11 +125,6 @@ int main() {
 			}
 		}
 		sort(v.begin(), v.end(), cmp);
-//		for (auto i : v){
-//			cout << i.r << " " << i.c << " " << i.cnt_like << " " << i.cnt_blank << "\n";
-//		}
-		cout << v[0].r << " " << v[0].c << " " << order_st<< "\n";
-//		cout << board[v[0].r][v[0].c] << order_st << "\n";
 		board[v[0].r][v[0].c] = order_st;
 	}
 
