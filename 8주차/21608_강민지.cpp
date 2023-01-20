@@ -11,7 +11,7 @@ using namespace std;
 vector<vector<int>> board;
 vector<vector<int>> like;
 vector<int> order;
-vector<int> satisfaction = {0, 10, 100, 1000};
+vector<int> satisfaction = {0, 1, 10, 100, 1000};
 
 int n;
 int dx[4] = {1, -1, 0, 0};
@@ -72,13 +72,12 @@ int countLike(int r, int c){
 }
 
 void findSeatInfo(int r, int c, int st, vector<seat> &v) {
-	board[r][c] = st;
+	int cnt_like = 0, cnt_blank = 0;
 
 	for (int i=0; i<4; i++){
 		int nr = r + dx[i];
 		int nc = c + dy[i];
 
-		int cnt_like = 0, cnt_blank = 0;
 		// 0) 범위 확인
 		if (!checkBoard(nr, nc)){
 			continue;
@@ -92,8 +91,8 @@ void findSeatInfo(int r, int c, int st, vector<seat> &v) {
 		if (board[nr][nc] == 0){
 			cnt_blank++;
 		}
-		v.push_back({nr, nc, cnt_like, cnt_blank});
 	}
+	v.push_back({r, c, cnt_like, cnt_blank});
 }
 
 int main() {
@@ -102,17 +101,13 @@ int main() {
 	// 입력
 	cin >> n;
 	board.assign(n+1, vector<int>(n+1, 0));
-	like.assign(n+1, vector<int>(4, 0));
+	like.assign(n*n+1, vector<int>(4, 0));
 	for (int i = 0; i < n * n; i++) {
 		cin >> st >> l1 >> l2 >> l3 >> l4;
-		like[st][0] = l1;
-		like[st][1] = l2;
-		like[st][2] = l3;
-		like[st][3] = l4;
-//		like[st].push_back(l1);
-//		like[st].push_back(l2);
-//		like[st].push_back(l3);
-//		like[st].push_back(l4);
+		like[st].push_back(l1);
+		like[st].push_back(l2);
+		like[st].push_back(l3);
+		like[st].push_back(l4);
 		order.push_back(st);
 	}
 
@@ -128,11 +123,15 @@ int main() {
 					continue;
 				}
 				findSeatInfo(i, j, order_st, v);
-				cout << "여기?\n";
 			}
 		}
 		sort(v.begin(), v.end(), cmp);
-		board[v[0].r][v[0].c] = st;
+//		for (auto i : v){
+//			cout << i.r << " " << i.c << " " << i.cnt_like << " " << i.cnt_blank << "\n";
+//		}
+		cout << v[0].r << " " << v[0].c << " " << order_st<< "\n";
+//		cout << board[v[0].r][v[0].c] << order_st << "\n";
+		board[v[0].r][v[0].c] = order_st;
 	}
 
 	// 2) 만족도 계산
