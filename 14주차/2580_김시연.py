@@ -11,7 +11,7 @@ input = sys.stdin.readline
 
 
 def init():
-    global puzzle, blank
+    global puzzle, row, col, square, blank
     for i in range(9):
         arr = list(map(int, input().split()))
         puzzle.append(arr)
@@ -19,27 +19,31 @@ def init():
         for j in range(9):
             if arr[j] == 0:
                 blank.append((i, j))
+            else:
+                sq = (i // 3) * 3 + j // 3
+                square[sq][arr[j]] = arr[j]
+                row[i][arr[j]] = arr[j]
+                col[j][arr[j]] = arr[j]
 
 
-def get_candidate(i, j):
-    global puzzle
-    candidate = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+def add_check(now, sq, num):
+    global row, col, square, puzzle
+    puzzle[now[0]][now[1]] = num
+    row[now[0]][num] = num
+    col[now[1]][num] = num
+    square[sq][num] = num
 
-    for idx in range(9):
-        if puzzle[i][idx] in candidate:
-            candidate.remove(puzzle[i][idx])
-        if puzzle[idx][j] in candidate:
-            candidate.remove(puzzle[idx][j])
 
-    for x in range((i//3)*3, (i//3+1)*3):
-        for y in range((j//3)*3, (j//3+1)*3):
-            if puzzle[x][y] in candidate:
-                candidate.remove(puzzle[x][y])
-    return candidate
+def pop_check(now, sq, num):
+    global row, col, square, puzzle
+    puzzle[now[0]][now[1]] = 0
+    row[now[0]].pop(num)
+    col[now[1]].pop(num)
+    square[sq].pop(num)
 
 
 def solution(idx):
-    global puzzle, blank
+    global puzzle, row, col, square, blank
 
     # 다 탐색했다면
     if idx == len(blank):
@@ -48,17 +52,21 @@ def solution(idx):
         sys.exit()
 
     now = blank[idx]
-    candidate = get_candidate(now[0], now[1])
+    sq = (now[0] // 3) * 3 + now[1]//3
 
-    for num in candidate:
-        puzzle[now[0]][now[1]] = num
-        solution(idx + 1)
-        puzzle[now[0]][now[1]] = 0
+    for num in range(1, 10):
+        if num not in row[now[0]] and num not in col[now[1]] and num not in square[sq]:
+            add_check(now, sq, num)
+            solution(idx+1)
+            pop_check(now, sq, num)
 
 
 # main():
 puzzle = []
 blank = []
+row = [{} for _ in range(9)]
+col = [{} for _ in range(9)]
+square = [{} for _ in range(9)]
 
 init()
 solution(0)
