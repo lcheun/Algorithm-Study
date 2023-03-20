@@ -30,7 +30,7 @@ void dijkstra(vector<vector<pair<int, int>>> graph, int start, int n) {
 
 			if (dist[next] > next_dist) {
 				dist[next] = next_dist;
-				pq.emplace(-dist[next], next);
+				pq.push(-dist[next], next);
 			}
 		}
 	}
