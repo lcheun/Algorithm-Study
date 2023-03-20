@@ -1,59 +1,67 @@
-//
+// ❌ 메모리 초과 실버1
 // Created by KangMinji on 2023-03-20.
-//
-#include <string>
-#include <vector>
-#include <map>
+// https://www.acmicpc.net/problem/16174
+
 #include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
-const int MAX = 1e5 + 1;
 
-// https://hwan-shell.tistory.com/263 참고
-vector<int> solution(vector<string> gems) {
-	vector<int> answer(2, 0);
-	map<string, int> m;
+int dx[2] = {0, 1}; // {오른쪽, 아래}
+int dy[2] = {1, 0};
 
-	// 보석 종류 확인
-	for (string gem : gems){
-		m[gem] = 0;
-	}
-	int gemCnt = m.size();
-	m.clear();
+bool playGame(int n, vector<vector<int>> &board) {
+	vector<vector<bool>> visited(n, vector<bool>(n, false));
+	queue<pair<int, int>> q;
 
-	int len = MAX;
-	int start = 0, end = 0;
-	while(true){
-		// 보석 다 모은 경우
-		if (m.size() == gemCnt){
-			// 1) length가 최소인지 확인 -> 최소라면 answer에 반영
-			if (end - start < len){
-				answer[0] = start + 1;
-				answer[1] = end;
-				len = end - start;
+	// 시작 정점 초기화
+	q.push({0, 0});
+	visited[0][0] = true;
+
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		int move = board[x][y];
+		for (int i = 0; i < 2; i++) {
+			int nx = x + move * dx[i];
+			int ny = y + move * dy[i];
+
+			// 보드 범위 내에 있지 않은 경우
+			if (nx < 0 || ny < 0 || nx >= n || ny >= n) {
+				continue;
 			}
-			// 2) start pointer 증가(구간 길이 감소)
-			if (m[gems[start]] == 1){
-				m.erase(gems[start]);
-			}
-				// 3) 뒷 부분도 탐색
-			else {
-				m[gems[start]]--;
-				cnt--;
-			}
-			start++;
-		}
 
-			// 종료조건
-		else if (end == gems.size()){
-			break;
-		}
-
-			// 보석 아직 못 모은 경우 : end pointer 증가시키며 찾는다
-		else {
-			m[gems[end]]++;
-			end++;
+			if (!visited[nx][ny]) {
+				if (board[nx][ny] == -1) {
+					return true;
+				}
+				q.push({nx, ny});
+				visited[nx][ny] = true;
+			}
 		}
 	}
+	return false;
+}
 
-	return answer;
+int main() {
+	int n;
+
+	// 입력
+	cin >> n;
+	vector<vector<int>> board(n, vector<int>(n, 0));
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> board[i][j];
+		}
+	}
+
+	// 연산
+	if (playGame(n, board)) {
+		cout << "HaruHaru\n";
+	} else {
+		cout << "Hing\n";
+	}
 }
