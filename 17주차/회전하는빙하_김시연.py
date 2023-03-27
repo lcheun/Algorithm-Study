@@ -20,7 +20,8 @@ def move(start_r, start_c, half_size, move_dir):
             next_c = c + dy[move_dir] * half_size
             new_ice[next_r][next_c] = ice[r][c]
 
-
+# 대충 구상하는데까지는 얼마 안걸렸는데 이걸 코드로 구현하자니 머리깨질뻔 ^^...
+# 3중 for문으로 move를 구현했다가 너무 더러운거같아서 정답코드를 참고하였음.
 def spin(level):
     for i in range(grid_size):
         for j in range(grid_size):
@@ -51,6 +52,7 @@ def get_near_ice(cx, cy):
 
 
 def melt():
+    # temp 2차원배열 초기화
     for i in range(grid_size):
         for j in range(grid_size):
             new_ice[i][j] = 0
@@ -63,6 +65,7 @@ def melt():
             else:
                 new_ice[i][j] = ice[i][j]
 
+    # 원래 2차원배열에 적용시키기
     for i in range(grid_size):
         for j in range(grid_size):
             ice[i][j] = new_ice[i][j]
@@ -77,13 +80,17 @@ def count_ice():
     ])
 
 
+# bfs로 탐색하며 크기를 구함.
+# 예전에 이퍼때매 풀었던 스케치북? 그거랑 비슷한 구조
 def get_biggest():
     max_size = 0
     deq = deque()
     visited = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
 
+    # 그리드 속 좌표를 하나하나 방문하며 그룹을 찾음
     for i in range(grid_size):
         for j in range(grid_size):
+            # 아직 방문안한 좌표를 찾으면 그룹크기 탐색 시작
             if ice[i][j] and not visited[i][j]:
                 visited[i][j] = True
                 deq.append((i, j))
@@ -101,15 +108,16 @@ def get_biggest():
                                 deq.append((nx, ny))
                                 visited[nx][ny] = True
 
+                # 탐색 결과 사이즈가 가장 크면 max_size 갱신
                 max_size = max(max_size, group_size)
     return max_size
 
 
 for level in levels:
+    # level이 0으로 들어왔을때를 넘기기 위한 코드
+    # 이거 처음에 몰라서 고생했음
     if level:
         spin(level)
-        # for i in range(2 ** n):
-        #    print(ice[i])
     melt()
 
 print(count_ice())

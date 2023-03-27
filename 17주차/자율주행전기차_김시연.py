@@ -1,3 +1,7 @@
+"""
+이 문제가 레전드인듯...너무 복잡해서 하기 싫어지는 마음
+하다 꼬여서 정답 참고함
+"""
 import sys
 from collections import deque
 input = sys.stdin.readline
@@ -6,6 +10,8 @@ input = sys.stdin.readline
 # input
 n, m, battery = map(int, input().split())
 road = [[] for _ in range(n+1)]
+
+# passenger 위치를 입력으로 받는데, 1부터 시작하기 때문에 그리드 초기화도 n+1만큼
 for i in range(1, n+1):
     road[i].append(0)
     road[i].extend(list(map(int, input().split())))
@@ -14,7 +20,8 @@ car_pos = tuple(map(int, input().split()))
 passengers = [tuple(map(int, input().split())) for _ in range(m)]
 moved_passenger = [False for _ in range(n*n)]
 
-step = [[0 for _ in range(n + 1)] for _ in range(n + 1)] # 거리계산용
+# bfs로 탐색 후 좌표별 자동차와의 거리 탐색용으로 배열 생성
+step = [[0 for _ in range(n + 1)] for _ in range(n + 1)]
 visited = [[False for _ in range(n + 1)] for _ in range(n + 1)]
 
 def bfs(start_pos):
