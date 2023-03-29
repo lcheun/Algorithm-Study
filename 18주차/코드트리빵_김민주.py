@@ -1,6 +1,9 @@
 import sys
 from collections import deque
 
+# https://www.codetree.ai/training-field/frequent-problems/codetree-mon-bread
+# bfs 로 베이스캠프랑 다음 이동할 위치(최단거리로) 구하기
+
 input = sys.stdin.readline
 n,m = map(int, input().split()) #격자크기, 사람수
 arr = [[0 for _ in range(n+1)]] #격자 정보
