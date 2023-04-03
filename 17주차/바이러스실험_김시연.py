@@ -11,6 +11,7 @@ food = [[0 for _ in range(n)] for _ in range(n)]
 new_food = [[0 for _ in range(n)] for _ in range(n)]
 
 
+# 번식하는 부분
 def child(cx, cy):
     dx = [-1, -1, -1, 0, 0, 1, 1, 1]
     dy = [-1, 0, 1, -1, 1, -1, 0, 1]
@@ -23,6 +24,7 @@ def child(cx, cy):
 
 
 def simulation():
+    # 초기화
     for i in range(n):
         for j in range(n):
             new_virus[i][j] = []
@@ -33,6 +35,7 @@ def simulation():
         for j in range(n):
             virus[i][j].sort()
 
+            # 나이만큼 먹을 수 있으면 new에 넣고, 아니면 음식 추가
             for age in virus[i][j]:
                 if food[i][j] >= age:
                     food[i][j] -= age
@@ -46,15 +49,17 @@ def simulation():
     for i in range(n):
         for j in range(n):
             for age in new_virus[i][j]:
+                # 5의 배수인 경우에만 번식
                 if age % 5 == 0:
                     child(i, j)
 
-    # step3) 추가양분 제공하기
+
+    # step3) 추가양분 제공하기 -> 입력받았던거
     for i in range(n):
         for j in range(n):
             new_food[i][j] += extra[i][j]
 
-    # step4) 갱신
+    # step4) temp에서 기존 배열로 옮기기
     for i in range(n):
         for j in range(n):
             virus[i][j] = new_virus[i][j][:]
