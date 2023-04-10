@@ -15,7 +15,7 @@ void dijkstra(vector<vector<pair<int, int>>> graph, int start, int n) {
 	priority_queue<pair<int, int>> pq;
 	vector<int> dist(n + 1, INF);
 
-	pq.emplace(0, start);
+	pq.push(0, start);
 	dist[start] = 0;
 
 	while (!pq.empty()) {
@@ -24,13 +24,13 @@ void dijkstra(vector<vector<pair<int, int>>> graph, int start, int n) {
 
 		pq.pop();
 
-		for (auto &p : graph[cur]) {
+		for (auto p : graph[cur]) {
 			int next = p.first;
 			int next_dist = p.second + cur_dist; 
 
 			if (dist[next] > next_dist) {
 				dist[next] = next_dist;
-				pq.emplace(-dist[next], next);
+				pq.push(-dist[next], next);
 			}
 		}
 	}
@@ -49,12 +49,12 @@ int main() {
 
 	for (int tc = 0; tc < T; tc++) {
 		int n, d, c;
-    cin >> n >> d >> c;
+    		cin >> n >> d >> c;
 
 		vector<pair<int, int>> hack[n + 1];
 		for (int i = 0; i < d; i++) {
 			int a, b, s;
-      cin >> a >> b >> s;
+      			cin >> a >> b >> s;
 			hack[b].push_back({a, s});
 		}
 
@@ -62,8 +62,7 @@ int main() {
 		time = 0;
 		dijkstra(hack, c, n);
     
-    cout << infect << " " << time;
+    		cout << infect << " " << time;
 	}
 
-	return 0;
 }
