@@ -11,7 +11,7 @@ vector<vector<int>> map;
 
 //패배 짝수 승리 홀수
 int solve(int cury, int curx, int opy, int opx){
-    if(vis[curx][cury]) return 0;    
+    if(vis[cury][curx]) return 0;    
   
     int ret = 0;
     for(int i=0; i<4; i++){
