@@ -22,14 +22,14 @@ int solution(vector<int> queue1, vector<int> queue2) {
             sum1 -= queue1[p1_first];
             sum2 += queue1[p1_first];
             
-            p1_first = (p1_first + 1 >= 2*q_size) ? 0 : p1_1 + 1;
-            p2_end = (p2_end + 1 >= 2*q_size) ? 0 : p2_2 + 1;
+            p1_first = (p1_first + 1 >= 2*q_size) ? 0 : p1_first + 1;
+            p2_end = (p2_end + 1 >= 2*q_size) ? 0 : p2_end + 1;
         } else if(sum1 < sum2) {
-            sum2 -= queue1[p2_1];
-            sum1 += queue1[p2_1];
+            sum2 -= queue1[p2_first];
+            sum1 += queue1[p2_first];
             
-            p2_first = (p2_first + 1 >= 2*q_size) ? 0 : p2_1 + 1;
-            p1_end = (p1_end + 1 >= 2*q_size) ? 0 : p1_2 + 1;
+            p2_first = (p2_first + 1 >= 2*q_size) ? 0 : p2_first + 1;
+            p1_end = (p1_end + 1 >= 2*q_size) ? 0 : p1_end + 1;
         } else return answer;
         
         answer++;
