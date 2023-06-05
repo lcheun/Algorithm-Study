@@ -1,0 +1,21 @@
+T = int(input())
+
+for _ in range(T):
+    case = input()
+    right = [] #커서 기준으로 왼쪽 오른쪽 나눈다
+    left = []
+
+    for i in case:
+        if i=='>':
+            if right:
+                left.append(right.pop())
+        elif i=='<':
+            if left:
+                right.append(left.pop())
+        elif i=='-':
+            if left:
+                left.pop()
+        else:
+            left.append(i)
+
+    print("".join(left)+"".join(reversed(right)))
