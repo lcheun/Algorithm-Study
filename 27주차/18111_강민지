@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+const int MAX = 1e9;
+
+int n, m, b;
+vector<vector<int>> board;
+
+int calcTime(int height){
+  vector<vector<int>> tmp_board = board;
+
+  int time = 0;
+  int block = b;
+  for (int i=0; i<n; i++){
+    for (int j=0; j<m; j++){
+      int diff = tmp_board[i][j] - height;
+      block += diff;
+      if (diff > 0){ // height보다 클 때 -> 제거(2초)
+        time += diff * 2;
+      } else { // height보다 작을 때 -> 인벤에서 하나 빼기(1초)
+        time -= diff;
+      }
+    }
+  }
+
+  if (block < 0){
+    return MAX;
+  }
+  return time;
+}
+
+int main() {
+
+  // 입력
+  cin >> n >> m >> b;
+  board.assign(n, vector<int>(m, 0));
+  int max_height = 0;
+  for (int i=0; i<n; i++){
+    for (int j=0; j<m; j++){
+      cin >> board[i][j];
+      max_height = max(max_height, board[i][j]);
+    }
+  }
+
+  // 연산
+  int min_time = MAX, answer = -1;
+  for (int height = max_height; height>=0; height--){
+    int time = calcTime(height);
+    if (time < min_time){
+      min_time = time;
+      answer = height;
+    }
+  }
+
+  // 출력
+  cout << min_time << ' ' << answer;
+}
