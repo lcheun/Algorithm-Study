@@ -1,0 +1,65 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+string binary = "";
+int result = 1;
+
+void makeBinary(long long number){
+    
+    while(number>0){
+        binary = to_string(number % 2) + binary;
+        number /= 2;
+    }
+    
+    // 포화 이진트리 만들어주기 = 2^k - 1
+    long long k = 0, len = 1;
+    while(len < binary.length()){
+        len *= 2;
+        k++;
+    }
+    
+    for (int i=0; i<len - binary.length() - 1; i++){
+        binary = "0" + binary;
+    }
+}
+
+bool checkBinary(long long start, long long end, bool is_dummy){
+    if (start == end){
+        if (is_dummy && binary[start] == '1'){
+            cout << "걸림\n";
+            return false;
+        }
+        return true;
+    }
+    
+    long long mid = (start + end) / 2;
+    printf("%d %d %d %d\n", start, mid, end, is_dummy);
+    // 부모에서 0 나왔는데 자식에서 1 나온 경우 -> 불가능
+    if (is_dummy && binary[mid] == '1'){
+        return false;
+    }
+    // 부모가 0인 경우 -> 표시
+    if (binary[mid] == '0'){
+        is_dummy = true;
+    }
+    
+    return checkBinary(start, mid-1, is_dummy) && checkBinary(mid+1, end, is_dummy);
+}
+
+// 이분탐색
+vector<int> solution(vector<long long> numbers) {
+    vector<int> answer;
+    
+    for (long long number : numbers){
+        binary = "";
+        result = 1;
+        
+        makeBinary(number);
+        cout << binary << '\n';
+        bool is_binary = checkBinary(0, binary.length() - 1, false);
+        answer.push_back(is_binary);
+    }
+    return answer;
+}
