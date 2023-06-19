@@ -1,3 +1,12 @@
+import sys
+N, M, B = map(int,input().split())
+block = []
+for _ in range(N):
+    block.append([int(x) for x in sys.stdin.readline().rstrip().split()])
+
+ans = int(1e9)
+glevel = 0
+
 # 땅 높이가 최대 256
 for i in range(257)
     use_block = 0
@@ -20,3 +29,5 @@ for i in range(257)
     if count <= ans:
         ans = count
         glevel = i
+
+print(ans, glevel)
