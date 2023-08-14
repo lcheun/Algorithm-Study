@@ -13,7 +13,7 @@ bool checkWin(char c) {
 	for (int i = 0; i < 3; i++) {
 		if (board[i][0] == c && board[i][0] == board[i][1] && board[i][1] == board[i][2])
 			return true;
-		if (board[0][i] == c && board[0][i] == board[1][i] && board[1][i] && board[2][i])
+		if (board[0][i] == c && board[0][i] == board[1][i] && board[1][i] == board[2][i])
 			return true;
 	}
 
