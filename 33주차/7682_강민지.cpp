@@ -48,7 +48,7 @@ int main() {
 
 		// 보드 판별
 		bool isX = checkWin('X');
-		bool isO = checkWin('0');
+		bool isO = checkWin('O');
 
 		// 1) X가 이기는 경우 : X는 3줄, X가 O보다 1개 더 많음
 		// 2) O가 이기는 경우 : O는 3줄, X와 O가 같은 값
